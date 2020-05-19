@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-4">
+          <h5>Ledger</h5>
+        </div>
+        <div class="col-8">
+          <div class="text-right">
+            <mat-form-field>
+              <mat-select [(ngModel)]="ledgerFilter" (selectionChange)="filterLegder()">
+                <mat-option value="month">LAST 30 DAYS</mat-option>
+                <mat-option value="week">LAST WEEK</mat-option>
+                <mat-option value="year">LAST YEAR</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      
+      <mat-card class="p-0 mb-3">
+        <mat-card-content>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Particulars</th>
+                  <th>Credit</th>
+                  <th>Debit</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ledgerRecord.transaction_records">
+                  <td scope="row">
+                    <h6 class="my-0">{{item.particular}}</h6><span class="text-muted"><mat-icon class=" date-range-icon mr-1" aria-hidden="false" aria-label="date_range icon">date_range</mat-icon>{{item.transaction_date | date : 'dd MMM yyyy hh a'}}</span>
+                  </td>
+                  <td style="color: green">{{ item.is_debit == 0  ? '+' + item.transaction_amount : '-'}}</td>
+                  <td style="color: red">{{ item.is_debit == 1  ? '-' + item.transaction_amount : '-'}}</td>
+                  <td><button mat-stroked-button color="primary"><mat-icon class="attach-money-icon mr-1" aria-hidden="false" aria-label="attach_money icon">attach_money</mat-icon>{{item.balance_amount}}</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <h5 class="mb-3">Balance Info</h5>
+      <div class="media mb-3 avail-bal">
+        <img src="assets/images/monetization_on-white-18dp.svg" class="align-self-center mr-2" alt="...">
+        <div class="media-body">
+          <h5 class="mt-0 mb-0">{{ledgerRecord.available_balance}}</h5>
+          <p>Available Balance</p>
+        </div>
+      </div>
+      <div class="media mb-3 total-cred">
+        <img src="assets/images/monetization_on-white-18dp.svg" class="align-self-center mr-2" alt="...">
+        <div class="media-body">
+          <h5 class="mt-0 mb-0">{{ledgerRecord.total_tokens_credited}}</h5>
+          <p>Total Credited</p>
+        </div>
+      </div>
+      <div class="media mb-3 total-debt">
+        <img src="assets/images/monetization_on-white-18dp.svg" class="align-self-center mr-2" alt="...">
+        <div class="media-body">
+          <h5 class="mt-0 mb-0">{{ledgerRecord.total_tokens_debited}}</h5>
+          <p>Total Debited</p>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" class="mb-3" style="width: 100%;">SPEND TOKENS</button>
+    </div>
+  </div>
